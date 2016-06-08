@@ -1,0 +1,28 @@
+<ion-navbar *navbar>
+    <ion-title>
+        Home
+    </ion-title>
+    <ion-buttons end>
+        <button (click)="addItem()">
+            <ion-icon name="add"></ion-icon>Add Item
+        </button>
+    </ion-buttons>
+</ion-navbar>
+
+<ion-content class="home">
+    <ion-list>
+        <ion-item-sliding *ngFor="let item of items" #slidingItem>
+            <ion-item (click)="viewItem(item)">{{item.title}}</ion-item>
+            <ion-item-options icon-left>
+                <button primary (click)="editItem(item)">
+                    <ion-icon name="construct"></ion-icon> Edit
+                </button>
+                <button danger (click)="removeItem(item, slidingItem)">
+                    <ion-icon name="trash"></ion-icon> Delete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+
+        <!--<ion-item *ngFor="let item of items" (click)="viewItem(item)">{{item.title}}</ion-item>-->
+    </ion-list>
+</ion-content>
