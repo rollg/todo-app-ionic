@@ -1,0 +1,1 @@
+Simple todo list app, using ionic and Angular 2
