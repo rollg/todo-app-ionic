@@ -41,7 +41,7 @@ export class AddTaskPage {
    */
   addItem() {
     this.savedTitle = this.title;
-    this.items.push({ description: this.description });
+    this.items.push({ description: this.description, checked: false });
     this.description = '';
   }
 }
