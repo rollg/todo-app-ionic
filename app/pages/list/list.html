@@ -3,21 +3,21 @@
         Home
     </ion-title>
     <ion-buttons end>
-        <button (click)="addItem()">
-            <ion-icon name="add"></ion-icon>Add Item
+        <button (click)="addTask()">
+            <ion-icon name="add"></ion-icon>Add Task
         </button>
     </ion-buttons>
 </ion-navbar>
 
 <ion-content class="home">
     <ion-list>
-        <ion-item-sliding *ngFor="let item of items" #slidingItem>
-            <ion-item (click)="viewItem(item)">{{item.title}}</ion-item>
+        <ion-item-sliding *ngFor="let task of tasks" #slidingItem>
+            <ion-item (click)="viewTask(task)">{{task.title}}</ion-item>
             <ion-item-options icon-left>
-                <button primary (click)="editItem(item)">
+                <button primary (click)="editTask(task)">
                     <ion-icon name="construct"></ion-icon> Edit
                 </button>
-                <button danger (click)="removeItem(item, slidingItem)">
+                <button danger (click)="removeTask(task, slidingItem)">
                     <ion-icon name="trash"></ion-icon> Delete
                 </button>
             </ion-item-options>

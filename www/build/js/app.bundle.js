@@ -33,7 +33,7 @@ var MyApp = (function () {
     return MyApp;
 }());
 exports.MyApp = MyApp;
-},{"./pages/list/list":4,"./providers/data/data":5,"ionic-angular":387,"ionic-native":410}],2:[function(require,module,exports){
+},{"./pages/list/list":3,"./providers/data/data":5,"ionic-angular":387,"ionic-native":410}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -45,35 +45,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var ionic_angular_1 = require('ionic-angular');
-var AddItemPage = (function () {
-    function AddItemPage(nav, navParams) {
+var AddTaskPage = (function () {
+    function AddTaskPage(nav, navParams) {
         this.nav = nav;
         this.navParams = navParams;
         this.navParams = navParams;
         this.title = "";
         this.description = "";
+        this.savedTitle = "";
+        this.items = [];
     }
     /**
      * save item to the list of items, with unique id
      */
-    AddItemPage.prototype.saveItem = function () {
-        var newItem = {
-            id: new Date().getTime(),
-            title: this.title,
-            description: this.description
-        };
-        this.navParams.get('ListPage').saveItem(newItem);
-        this.nav.pop();
+    AddTaskPage.prototype.saveTask = function () {
+        if (this.title.length &&
+            this.items.length) {
+            var newTask = {
+                id: new Date().getTime(),
+                title: this.title,
+                description: this.items
+            };
+            this.navParams.get('ListPage').saveTask(newTask);
+            this.nav.pop();
+        }
     };
-    AddItemPage = __decorate([
+    /**
+     * Add new item to the task;
+     */
+    AddTaskPage.prototype.addItem = function () {
+        this.savedTitle = this.title;
+        this.items.push({ description: this.description });
+        this.description = '';
+    };
+    AddTaskPage = __decorate([
         ionic_angular_1.Page({
-            templateUrl: 'build/pages/add-item/add-item.html',
+            templateUrl: 'build/pages/add-task/add-task.html',
         }), 
         __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams])
-    ], AddItemPage);
-    return AddItemPage;
+    ], AddTaskPage);
+    return AddTaskPage;
 }());
-exports.AddItemPage = AddItemPage;
+exports.AddTaskPage = AddTaskPage;
 },{"ionic-angular":387}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -86,76 +99,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var ionic_angular_1 = require('ionic-angular');
-var ItemDetailPage = (function () {
-    function ItemDetailPage(navParams) {
-        this.navParams = navParams;
-        this.navParams = navParams;
-        this.title = this.navParams.get('item').title;
-        this.description = this.navParams.get('item').description;
-    }
-    ItemDetailPage = __decorate([
-        ionic_angular_1.Page({
-            templateUrl: 'build/pages/item-detail/item-detail.html',
-        }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams])
-    ], ItemDetailPage);
-    return ItemDetailPage;
-}());
-exports.ItemDetailPage = ItemDetailPage;
-},{"ionic-angular":387}],4:[function(require,module,exports){
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var ionic_angular_1 = require('ionic-angular');
-var add_item_1 = require('../add-item/add-item');
-var item_detail_1 = require("../item-detail/item-detail");
+var add_task_1 = require('../add-task/add-task');
+var task_detail_1 = require("../task-detail/task-detail");
 var data_1 = require("../../providers/data/data");
 var ListPage = (function () {
     function ListPage(nav, dataService) {
         var _this = this;
         this.nav = nav;
         this.dataService = dataService;
-        this.items = [];
+        this.tasks = [];
         this.dataService.getData().then(function (todos) {
-            _this.items = JSON.parse(todos) || [];
+            _this.tasks = JSON.parse(todos) || [];
         });
     }
-    ListPage.prototype.addItem = function () {
-        this.nav.push(add_item_1.AddItemPage, { ListPage: this });
+    /**
+     * Navigate to add task page;
+     */
+    ListPage.prototype.addTask = function () {
+        this.nav.push(add_task_1.AddTaskPage, { ListPage: this });
     };
-    ListPage.prototype.saveItem = function (item) {
-        this.items.push(item);
+    /**
+     * add (push) item to the tasks list and pass it to the dataService.save() method;
+     * @param item
+     */
+    ListPage.prototype.saveTask = function (item) {
+        this.tasks.push(item);
         this.dataService.save(item);
     };
-    ListPage.prototype.viewItem = function (item) {
-        this.nav.push(item_detail_1.ItemDetailPage, {
-            item: item
+    /**
+     * View task description;
+     * @param task
+     */
+    ListPage.prototype.viewTask = function (task) {
+        this.nav.push(task_detail_1.TaskDetailPage, {
+            task: task
         });
     };
     /**
-     * Remove Item from the list of items
+     * Remove Item from the list of tasks
      * @param item {id: Number, title: String, description: String}
      * @param slidingItem
      */
-    ListPage.prototype.removeItem = function (item, slidingItem) {
+    ListPage.prototype.removeTask = function (item, slidingItem) {
         slidingItem.close();
-        //this.items.find(function(currentItem) { return currentItem.id === item.id; });
-        for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i] == item) {
-                this.items.splice(i, 1);
+        //this.tasks.find(function(currentItem) { return currentItem.id === item.id; });
+        for (var i = 0; i < this.tasks.length; i++) {
+            if (this.tasks[i] == item) {
+                this.tasks.splice(i, 1);
                 this.dataService.remove(item);
             }
         }
     };
-    ListPage.prototype.editItem = function (item) {
-        this.nav.push(item_detail_1.ItemDetailPage, {
+    /**
+     * navigate to Edit page for editing;
+     * @param item
+     */
+    ListPage.prototype.editTask = function (item) {
+        this.nav.push(task_detail_1.TaskDetailPage, {
             item: item
         });
     };
@@ -168,7 +168,35 @@ var ListPage = (function () {
     return ListPage;
 }());
 exports.ListPage = ListPage;
-},{"../../providers/data/data":5,"../add-item/add-item":2,"../item-detail/item-detail":3,"ionic-angular":387}],5:[function(require,module,exports){
+},{"../../providers/data/data":5,"../add-task/add-task":2,"../task-detail/task-detail":4,"ionic-angular":387}],4:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var ionic_angular_1 = require('ionic-angular');
+var TaskDetailPage = (function () {
+    function TaskDetailPage(navParams) {
+        this.navParams = navParams;
+        this.navParams = navParams;
+        this.title = this.navParams.get('task').title;
+        this.description = this.navParams.get('task').description;
+    }
+    TaskDetailPage = __decorate([
+        ionic_angular_1.Page({
+            templateUrl: 'build/pages/task-detail/task-detail.html',
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams])
+    ], TaskDetailPage);
+    return TaskDetailPage;
+}());
+exports.TaskDetailPage = TaskDetailPage;
+},{"ionic-angular":387}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

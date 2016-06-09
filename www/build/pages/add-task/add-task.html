@@ -1,0 +1,38 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Add Task
+  </ion-title>
+  <ion-buttons end>
+    <button (click)="saveTask()">
+      Save
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="home">
+
+  <ion-list>
+
+    <!--Generate list of added items;-->
+    <ion-list-header *ngIf="savedTitle">{{savedTitle}}</ion-list-header>
+    <ion-item *ngFor="let item of items">{{item.description}}</ion-item>
+
+    <ion-item [hidden]="savedTitle">
+      <ion-label floating>Title</ion-label>
+      <ion-input type="text" [(ngModel)]="title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-input type="text" [(ngModel)]="description"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <button (click)="addItem()" secondary full>
+    Add item
+    <ion-icon name="add"></ion-icon>
+  </button>
+
+
+</ion-content>

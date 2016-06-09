@@ -5,7 +5,12 @@
 <ion-content padding class="item-detail">
   <ion-card>
     <ion-card-content>
-      {{description}}
+      <ion-list>
+        <ion-item *ngFor="let item of description">
+          <ion-label>{{item.description}}</ion-label>
+          <ion-checkbox></ion-checkbox>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>
