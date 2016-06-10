@@ -2,12 +2,13 @@ import {Page, NavController} from 'ionic-angular';
 import {AddTaskPage} from '../add-task/add-task';
 import {TaskDetailPage} from "../task-detail/task-detail";
 import {DataService} from "../../providers/data/data";
+import {EditTaskPage} from "../edit-task/edit-task";
 
 @Page({
     templateUrl: 'build/pages/list/list.html'
 })
 export class ListPage {
-    public tasks: Array;
+    public tasks: any;
     public nav: NavController;
     public dataService;
 
@@ -69,9 +70,9 @@ export class ListPage {
      * navigate to Edit page for editing;
      * @param item
      */
-    editTask(item) {
-        this.nav.push(TaskDetailPage, {
-            item: item
+    editTask(task) {
+        this.nav.push(EditTaskPage, {
+            task: task
         });
     }
 }

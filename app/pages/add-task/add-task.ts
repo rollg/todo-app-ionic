@@ -6,7 +6,7 @@ import {Page, NavController, NavParams} from 'ionic-angular';
 export class AddTaskPage {
   private title: String;
   private description: String;
-  private items: Array;
+  private items: any;
   private savedTitle: String;
 
   constructor(public nav: NavController, public navParams: NavParams) {

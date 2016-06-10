@@ -54,5 +54,22 @@ export class DataService {
       }
     }
   }
-}
 
+  /**
+   * update element in the storage;
+   * @param  {Number} item        [description]
+   * @param  {String} title       [description]
+   * @param  {any}}   description [description]
+   * @return {[type]}             [description]
+   */
+  update(item: {id: Number, title: String, description: any}) {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].id === item.id) {
+        this.data[i] = item;
+      }
+    }
+
+    let newData = JSON.stringify(this.data);
+    this.storage.set('todoapp', newData);
+  }
+}

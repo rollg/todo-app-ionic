@@ -1,0 +1,16 @@
+<ion-navbar *navbar>
+  <ion-title>{{title}}</ion-title>
+  <ion-buttons end>
+    <button (click)="saveTask()">
+      Save
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content padding class="edit-task">
+  <ion-list>
+    <ion-item *ngFor="let item of description">
+      <ion-input type="text" [(ngModel)]="item.description"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
