@@ -16,6 +16,18 @@
 <body>
   <ion-app></ion-app>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDbh2LJdB1M1lZcWCZ1EfARsoL4EWj-KGg",
+      authDomain: "ionic-toto-list.firebaseapp.com",
+      databaseURL: "https://ionic-toto-list.firebaseio.com",
+      storageBucket: "",
+    };
+    firebase.initializeApp(config);
+  </script>
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
   <!-- Polyfill needed for platforms without Promise and Collection support -->

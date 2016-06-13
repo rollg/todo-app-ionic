@@ -24,12 +24,12 @@
 
     <ion-item>
       <ion-label floating>Description</ion-label>
-      <ion-input type="text" [(ngModel)]="description"></ion-input>
+      <ion-input #input type="text" [(ngModel)]="description"></ion-input>
     </ion-item>
 
   </ion-list>
 
-  <button (click)="addItem()" secondary full>
+  <button (click)="addItem(input)" secondary full>
     Add item
     <ion-icon name="add"></ion-icon>
   </button>

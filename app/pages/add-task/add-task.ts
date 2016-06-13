@@ -39,9 +39,20 @@ export class AddTaskPage {
   /**
    * Add new item to the task;
    */
-  addItem() {
+  addItem(input) {
     this.savedTitle = this.title;
     this.items.push({ description: this.description, checked: false });
     this.description = '';
+
+    this.focusInput(input);
+  }
+
+  /**
+   * set focus on <input>
+   * @param  {[type]} input [description]
+   * @return {[type]}       [description]
+   */
+  focusInput(input) {
+    input.setFocus();
   }
 }

@@ -1,4 +1,4 @@
-import {Page, NavController} from 'ionic-angular';
+import {Alert, Page, NavController} from 'ionic-angular';
 import {AddTaskPage} from '../add-task/add-task';
 import {TaskDetailPage} from "../task-detail/task-detail";
 import {DataService} from "../../providers/data/data";
@@ -29,6 +29,30 @@ export class ListPage {
      */
     addTask() {
         this.nav.push(AddTaskPage, {ListPage: this});
+    }
+
+    confirmRemoval(task, slidingItem) {
+      let alert = Alert.create({
+        title: 'Confirm removal',
+        message: 'Do you want to remove this task?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.removeTask(task, slidingItem);
+            }
+          }
+        ]
+      });
+
+      this.nav.present(alert);
     }
 
     /**
